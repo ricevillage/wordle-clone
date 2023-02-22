@@ -140,8 +140,8 @@ h2 {
   }
 
   .key {
-    width: 35px;
-    height: 65px;
+    width: 40px;
+    height: 50px;
   }
 
   .key:active {
@@ -149,6 +149,6 @@ h2 {
   }
 
   [data-letter="ENTER"] {
-    width: 50px;
+    width: 65px;
   }
 }
