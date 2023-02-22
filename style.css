@@ -82,6 +82,7 @@ h2 {
   font-weight: bold;
   color: #000;
   cursor: pointer;
+  user-select: none;
 }
 
 .key:active {
@@ -141,6 +142,10 @@ h2 {
   .key {
     width: 35px;
     height: 65px;
+  }
+
+  .key:active {
+    transform: none;
   }
 
   [data-letter="ENTER"] {
