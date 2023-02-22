@@ -20,13 +20,16 @@ export class Wordle {
   async getWordsFromAPI() {
     const response = await fetch(URL);
     const words = await response.json();
-    return words.slice(0, this.dataSetSize);
+    // randomly sort: sorting function returns value of -1 or 1
+    const shuffledWords = words.sort(() => Math.random() - 0.5);
+    return shuffledWords.slice(0, this.dataSetSize);
   }
 
   async setTargetWord() {
     const wordArray = await this.getWordsFromAPI();
     const index = Math.floor(Math.random() * wordArray.length);
-    return wordArray[index];
+    // return wordArray[index];
+    return "holly";
   }
 
   async initGame() {
@@ -85,6 +88,11 @@ export class Wordle {
 
     this.guessWord = this.guessWord.slice(0, -1);
     this.currentCol--;
+
+    const cellIndex =
+      this.currentCol + this.currentRow * this.maxWordLength + 1;
+    const currentCell = this.domCells[cellIndex];
+    currentCell.classList.remove("pop-up");
   }
 
   moveToNextRow() {
@@ -99,6 +107,13 @@ export class Wordle {
     }
   }
 
+  async flipTiles(currentCell) {
+    const delayTime = 80;
+    setTimeout(() => {
+      currentCell.classList.add("pop-up");
+    }, delayTime);
+  }
+
   updateGameBoard(operation) {
     for (let i = 0; i < this.maxWordLength; i++) {
       const cellIndex = i + this.currentRow * this.maxWordLength;
@@ -107,6 +122,10 @@ export class Wordle {
       currentCell.innerText = this.guessWord[i]
         ? this.guessWord[i].toUpperCase()
         : "";
+
+      if (this.guessWord[i]) {
+        this.flipTiles(currentCell);
+      }
     }
 
     if (operation === "enter" && this.guessWord.length === this.maxWordLength) {
@@ -153,6 +172,11 @@ export class Wordle {
       } else {
         currentCell.classList.add("color-absent");
         currentKey.classList.add("color-absent");
+      }
+
+      if (this.guessWord == this.targetWord) {
+        currentCell.classList.add("flip-in");
+        currentCell.classList.add("flip-out");
       }
     }
   }

@@ -5,10 +5,12 @@ body {
 }
 
 h2 {
-  font-size: 3rem;
   font-weight: bold;
-  margin: 0px;
+  font-size: 28px;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
   text-align: center;
+  pointer-events: none;
 }
 
 #board-container {
@@ -42,21 +44,24 @@ h2 {
 
 .color-absent {
   background-color: #787c7e;
+  transition: background-color 0.2s ease-out;
 }
 
 .color-correct {
   background-color: #6aaa64;
+  transition: background-color 0.2s ease-out;
 }
 
 .color-present {
   background-color: #c9b458;
+  transition: background-color 0.2s ease-out;
 }
 
 #keyboard {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 5px;
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
@@ -64,7 +69,7 @@ h2 {
 
 .keyboard-row {
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
 .key {
@@ -73,20 +78,55 @@ h2 {
   align-items: center;
   width: 50px;
   height: 50px;
-  /* background-color: #d3d6da; */
-  border-radius: 5px;
   font-size: 12px;
   font-weight: bold;
   color: #000;
   cursor: pointer;
 }
 
-.key:hover {
-  background-color: #eee;
-}
-
 .key:active {
   transform: scale(0.95);
+}
+
+.pop-up {
+  animation: pop-up 0.2s;
+}
+
+.flip-in {
+  animation: flip-in 1.5s;
+}
+
+.flip-out {
+  animation: flip-out 1.5s;
+}
+
+@keyframes pop-up {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes flip-in {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(-180deg);
+  }
+}
+
+@keyframes flip-out {
+  from {
+    transform: rotateX(-180deg);
+  }
+  to {
+    transform: rotateX(0deg);
+  }
 }
 
 @media (max-width: 600px) {

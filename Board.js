@@ -23,9 +23,6 @@ export class Board {
       boardDiv.appendChild(cell);
     }
 
-    boardDiv.style.setProperty("--grid-rows", this.row);
-    boardDiv.style.setProperty("--grid-cols", this.col);
-
     for (let i = 0; i < this.qwertyLayout.length; i++) {
       const rowElement = document.createElement("div");
       rowElement.classList.add("keyboard-row");
