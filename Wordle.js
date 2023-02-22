@@ -26,7 +26,8 @@ export class Wordle {
   async setTargetWord() {
     const wordArray = await this.getWordsFromAPI();
     const index = Math.floor(Math.random() * wordArray.length);
-    return wordArray[index];
+    // return wordArray[index];
+    return "bossy";
   }
 
   async initGame() {
@@ -49,6 +50,9 @@ export class Wordle {
     let operation;
     switch (nextCharacter) {
       case "backspace":
+        this.removeLastCharacter();
+        break;
+      case "<":
         this.removeLastCharacter();
         break;
       case "enter":
@@ -120,16 +124,36 @@ export class Wordle {
   }
 
   updateCellColors() {
-    for (let i = 0; i < this.maxWordLength; i++) {
+    const targetWordCounts = {};
+
+    for (let i = 0; i < this.targetWord.length; i++) {
+      const letter = this.targetWord[i];
+      targetWordCounts[letter] = (targetWordCounts[letter] || 0) + 1;
+    }
+
+    for (let i = this.maxWordLength - 1; i >= 0; i--) {
       const cellIndex = i + this.currentRow * this.maxWordLength;
       const currentCell = this.domCells[cellIndex];
+      const currentLetter = this.guessWord[i].toUpperCase();
+      const currentKey = document.querySelector(
+        `[data-letter="${currentLetter}"]`
+      );
 
+      currentCell.style.color = "white";
       if (this.guessWord[i] === this.targetWord[i]) {
         currentCell.classList.add("color-correct");
-      } else if (this.targetWord.includes(this.guessWord[i])) {
+        currentKey.classList.add("color-correct");
+        targetWordCounts[this.guessWord[i]]--;
+      } else if (
+        this.targetWord.includes(this.guessWord[i]) &&
+        targetWordCounts[this.guessWord[i]] > 0
+      ) {
         currentCell.classList.add("color-present");
+        currentKey.classList.add("color-present");
+        targetWordCounts[this.guessWord[i]]--;
       } else {
         currentCell.classList.add("color-absent");
+        currentKey.classList.add("color-absent");
       }
     }
   }
@@ -146,21 +170,39 @@ export class Wordle {
     const messageElement = document.createElement("p");
     messageElement.innerText = message;
     messageElement.classList.add("end-message");
-    document.body.appendChild(messageElement);
+    const board = document.querySelector("#board-container");
+    board.appendChild(messageElement);
     document.removeEventListener("keydown", this.onKeyDown.bind(this), false);
+    document.removeEventListener("click", this.onKeyClick.bind(this), false);
   }
 
-  onKeyDown(event) {
-    const guess = event.key.toLowerCase();
+  onKeyAction(guess) {
     if (
-      (guess.match(/^[a-z]$/) || guess === "backspace" || guess === "enter") &&
+      (guess.match(/^[a-z]$/) ||
+        guess === "backspace" ||
+        guess === "<" ||
+        guess === "enter") &&
       !this.gameOver
     ) {
       this.makeGuess(guess);
     }
   }
 
+  onKeyDown(event) {
+    const guess = event.key.toLowerCase();
+    this.onKeyAction(guess);
+  }
+
+  onKeyClick(key) {
+    key.addEventListener("click", () => {
+      const guess = key.getAttribute("data-letter").toLowerCase();
+      this.onKeyAction(guess);
+    });
+  }
+
   initKeyBoardListener() {
     document.addEventListener("keydown", this.onKeyDown.bind(this));
+    const keyboard = document.querySelector("#keyboard");
+    keyboard.querySelectorAll(".key").forEach((key) => this.onKeyClick(key));
   }
 }

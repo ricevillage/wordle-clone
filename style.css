@@ -14,6 +14,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column-reverse;
 }
 
 #board {
@@ -25,7 +26,7 @@ h2 {
 .board-cell {
   width: 60px;
   height: 60px;
-  border: 1px solid black;
+  border: 1px solid grey;
   margin: 5px;
   display: flex;
   justify-content: center;
@@ -35,10 +36,7 @@ h2 {
   font-size: 2rem;
   font-weight: bold;
   color: black;
-
   user-select: none;
-  -webkit-user-select: none; /*Safari*/
-  -moz-user-select: none; /*Firefox*/
 }
 
 .color-absent {
@@ -51,4 +49,52 @@ h2 {
 
 .color-present {
   background-color: #c9b458;
+}
+
+#keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 10px;
+}
+
+.key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  /* background-color: #d3d6da; */
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+}
+
+.key:hover {
+  background-color: #eee;
+}
+
+.key:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 1250px) {
+  .key {
+    width: 29px;
+    height: 30px;
+  }
+
+  [data-letter="ENTER"] {
+    width: 50px;
+  }
 }
