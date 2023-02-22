@@ -1,1 +1,2 @@
-# wordle-clone
+# wordle-unlimited
+clone
