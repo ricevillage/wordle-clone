@@ -28,7 +28,7 @@ export class Wordle {
   async setTargetWord() {
     const wordArray = await this.getWordsFromAPI();
     const index = Math.floor(Math.random() * wordArray.length);
-    return "holly";
+    return wordArray[index];
   }
 
   async initGame() {
