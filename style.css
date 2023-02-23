@@ -131,13 +131,18 @@ h2 {
 }
 
 @media (max-width: 600px) {
+  .board-cell {
+    width: 55px;
+    height: 55px;
+  }
+
   #keyboard {
     gap: 10px;
     touch-action: manipulation;
   }
 
   .keyboard-row {
-    gap: 2px;
+    gap: 5px;
   }
 
   .key:active {
@@ -146,7 +151,7 @@ h2 {
 
   .key {
     width: 35px;
-    height: 65px;
+    height: 60px;
   }
 
   [data-letter="ENTER"] {
