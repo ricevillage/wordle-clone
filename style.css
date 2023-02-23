@@ -85,11 +85,6 @@ h2 {
   cursor: pointer;
 }
 
-.key:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #787c7e;
-}
-
 .key:active {
   transform: scale(0.95);
 }
@@ -138,6 +133,7 @@ h2 {
 @media (max-width: 600px) {
   #keyboard {
     gap: 10px;
+    touch-action: manipulation;
   }
 
   .keyboard-row {
