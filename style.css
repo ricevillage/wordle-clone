@@ -164,14 +164,16 @@ h2 {
 }
 
 @media (max-width: 600px) {
+  body {
+    touch-action: manipulation;
+  }
+
   h2 {
     margin-bottom: 10px;
   }
 
   #keyboard {
     gap: 10px;
-    margin-top: 70px;
-    touch-action: manipulations;
   }
 
   .keyboard-row {
