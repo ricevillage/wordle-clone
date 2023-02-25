@@ -11,6 +11,7 @@ h2 {
   text-transform: uppercase;
   text-align: center;
   pointer-events: none;
+  margin: 2px 0px;
 }
 
 #board-container {
@@ -21,7 +22,7 @@ h2 {
 }
 
 #board {
-  display: inline-grid;
+  display: grid;
   grid-template-rows: repeat(var(--grid-rows), 1fr);
   grid-template-columns: repeat(var(--grid-cols), 1fr);
   user-select: none;
@@ -31,15 +32,13 @@ h2 {
   width: 60px;
   height: 60px;
   border: 1px solid grey;
-  margin: 5px;
+  margin: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-color: #ffffff;
   font-size: 2rem;
   font-weight: bold;
-  color: black;
+  color: #000;
   transition: background-color 0.2s ease-out;
 }
 
@@ -53,6 +52,34 @@ h2 {
 
 .color-present {
   background-color: #c9b458;
+}
+
+#overlay {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  padding: 10px;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+}
+
+#restartButton {
+  margin-top: 15px;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  border: 0px;
+  background-color: #787c7e;
+  border-radius: 4px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.3);
 }
 
 #keyboard {
@@ -75,12 +102,20 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 45px;
   font-size: 12px;
   font-weight: bold;
   color: #000;
   cursor: pointer;
+  border: 0px;
+  border-radius: 4px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.3);
+}
+
+[data-letter="ENTER"],
+[data-letter="<"] {
+  width: 60px;
 }
 
 .key:active {
@@ -129,14 +164,14 @@ h2 {
 }
 
 @media (max-width: 600px) {
-  .board-cell {
-    width: 55px;
-    height: 55px;
+  h2 {
+    margin-bottom: 10px;
   }
 
   #keyboard {
     gap: 10px;
-    touch-action: manipulation;
+    margin-top: 70px;
+    touch-action: manipulations;
   }
 
   .keyboard-row {
@@ -148,11 +183,12 @@ h2 {
   }
 
   .key {
-    width: 35px;
+    width: 33px;
     height: 60px;
   }
 
-  [data-letter="ENTER"] {
+  [data-letter="ENTER"],
+  [data-letter="<"] {
     width: 50px;
   }
 }

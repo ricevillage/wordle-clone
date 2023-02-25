@@ -140,40 +140,55 @@ export class Wordle {
     }
   }
 
-  updateCellColors() {
-    const targetWordCounts = {};
+  getFormatedGuess() {
+    let solutionArray = [...this.targetWord];
+    let formattedGuess = [...this.guessWord].map((letter) => {
+      return { key: letter, status: "absent" };
+    });
 
-    for (let i = 0; i < this.targetWord.length; i++) {
-      const letter = this.targetWord[i];
-      targetWordCounts[letter] = (targetWordCounts[letter] || 0) + 1;
+    // find any green letters
+    for (let i = 0; i < formattedGuess.length; i++) {
+      const currentLetter = formattedGuess[i].key;
+      if (this.targetWord[i] === currentLetter) {
+        formattedGuess[i].status = "correct";
+        solutionArray[i] = null;
+      }
     }
 
-    for (let i = this.maxWordLength - 1; i >= 0; i--) {
+    // find any yellow letters
+    for (let i = 0; i < formattedGuess.length; i++) {
+      const currentLetter = formattedGuess[i].key;
+      if (
+        solutionArray.includes(currentLetter) &&
+        formattedGuess[i].status !== "correct"
+      ) {
+        formattedGuess[i].status = "present";
+        const index = solutionArray.indexOf(currentLetter);
+        solutionArray[index] = null;
+      }
+    }
+    return formattedGuess;
+  }
+
+  updateCellColors() {
+    const formattedGuess = this.getFormatedGuess();
+
+    for (let i = 0; i < formattedGuess.length; i++) {
       const cellIndex = i + this.currentRow * this.maxWordLength;
       const currentCell = this.domCells[cellIndex];
-      const currentLetter = this.guessWord[i].toUpperCase();
+      const currentLetter = this.guessWord[i]?.toUpperCase();
       const currentKey = document.querySelector(
         `[data-letter="${currentLetter}"]`
       );
 
-      currentCell.style.color = "white";
-      if (this.guessWord[i] === this.targetWord[i]) {
-        currentCell.classList.add("color-correct");
-        currentKey.classList.add("color-correct");
-        targetWordCounts[this.guessWord[i]]--;
-      } else if (
-        this.targetWord.includes(this.guessWord[i]) &&
-        targetWordCounts[this.guessWord[i]] > 0
-      ) {
-        currentCell.classList.add("color-present");
-        currentKey.classList.add("color-present");
-        targetWordCounts[this.guessWord[i]]--;
-      } else {
-        currentCell.classList.add("color-absent");
-        currentKey.classList.add("color-absent");
-      }
+      currentCell.style.color = "#ffffff";
+      currentKey.style.color = "#ffffff";
 
-      if (this.guessWord == this.targetWord) {
+      const status = formattedGuess[i].status;
+      currentCell.classList.add(`color-${status}`);
+      currentKey.classList.add(`color-${status}`);
+
+      if (this.guessWord === this.targetWord) {
         currentCell.classList.add("flip-in");
         currentCell.classList.add("flip-out");
       }
@@ -184,16 +199,15 @@ export class Wordle {
     let message = "";
 
     if (this.gameOver) {
-      message = `Game Over. The word was ${this.targetWord}.`;
+      message = `Game Over.\n The word was ${this.targetWord}.`;
     } else {
-      message = `You Win! The word was ${this.targetWord}.`;
+      message = `You Win! \n The word was ${this.targetWord}.`;
     }
 
-    const messageElement = document.createElement("p");
-    messageElement.innerText = message;
-    messageElement.classList.add("end-message");
-    const board = document.querySelector("#board-container");
-    board.appendChild(messageElement);
+    const messageOverlay = document.querySelector("#overlay");
+    const messageH2 = document.querySelector("#message");
+    messageH2.innerText = message;
+    messageOverlay.style.display = "flex";
     document.removeEventListener("keydown", this.onKeyDown.bind(this), false);
     document.removeEventListener("click", this.onKeyClick.bind(this), false);
   }
