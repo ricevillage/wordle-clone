@@ -194,4 +194,12 @@ h2 {
   [data-letter="<"] {
     width: 50px;
   }
+
+  .flip-in {
+    animation: none;
+  }
+
+  .flip-out {
+    animation: none;
+  }
 }
