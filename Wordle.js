@@ -28,7 +28,8 @@ export class Wordle {
   async setTargetWord() {
     const wordArray = await this.getWordsFromAPI();
     const index = Math.floor(Math.random() * wordArray.length);
-    return wordArray[index];
+    // return wordArray[index];
+    return "bunny";
   }
 
   async initGame() {
@@ -106,7 +107,7 @@ export class Wordle {
     }
   }
 
-  async flipTiles(currentCell) {
+  async popUpTiles(currentCell) {
     const delayTime = 80;
     setTimeout(() => {
       currentCell.classList.add("pop-up");
@@ -123,7 +124,7 @@ export class Wordle {
         : "";
 
       if (this.guessWord[i]) {
-        this.flipTiles(currentCell);
+        this.popUpTiles(currentCell);
       }
     }
 
