@@ -1,2 +1,2 @@
 # wordle-unlimited
-clone
+clone: https://ricevillage.github.io/wordle-unlimited/
